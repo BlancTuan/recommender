@@ -6,8 +6,9 @@ from src.convertFile import convertFile
 out_reducts_file = '../data/jester-data-1/data_reducts/data.data'
 
 class process_reduct:
-    def __init__(self,train_set):
+    def __init__(self,train_set, user_reduct):
         self.train_set = train_set
+        self.user_reduct = user_reduct
         self.dic_reducts = {}
         self.dict_fitting_finding = {}
         self.count = 0
@@ -15,20 +16,20 @@ class process_reduct:
         self.dl = {}
     def process_finding(self):
         for user in self.train_set["users"]:
-            if user == 3:
+            if user == self.user_reduct:
                 self.reduct_finding_user(user)
                 self.process_fitting_finding(user)
                 # convertFile(out_reducts_file, self.dic_reducts).WriteFile()
-            else: break
-        return self.dic_reducts
+                return self.dic_reducts
+            else: continue
     def reduct_finding_user(self, user):
         print("-------------Reduct_Finding---------------")
         cl = list(set(self.train_set["items_seen_by_user"][user]))
         dl = list(set(self.train_set["items"]) - set(cl))
         # Lay ngau nhien 10 bo phim chua danh gia lam dan quyet dinh
         if(len(cl) > 10 and len(dl) > 10):
-            self.cl = cl = set(random.sample(cl, k=int(10)))
-            self.dl = dl = set(random.sample(dl, k=int(10)))
+            self.cl = cl = set(random.sample(cl, k=int(8)))
+            self.dl = dl = set(random.sample(dl, k=int(8)))
 
         top = []
         # for i in range(len(cl)):
